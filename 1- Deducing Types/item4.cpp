@@ -1,6 +1,16 @@
 // -- -- Know how to view deduced types -- --
 #include <iostream>
-
+#include <boost/type_index.hpp>
+template<typename T>
+void f_boost(const T& param)
+{
+using std::cout;
+using boost::typeindex::type_id_with_cvr;
+// show T
+cout << "T ="<< type_id_with_cvr<T>().pretty_name()<< '\n';
+// show param's type
+cout << "param = "<< type_id_with_cvr<decltype(param)>().pretty_name()<< '\n';
+}
 template <typename T>
 class TD;
 
@@ -32,6 +42,9 @@ int main(int argc, char const* argv[]) {
   const Widget w{};
   f(&w);
   f(theAnswer);
+
+  f_boost(&w);
+  f_boost(theAnswer);
 
   return 0;
 }
