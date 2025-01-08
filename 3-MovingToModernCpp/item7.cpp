@@ -75,7 +75,7 @@ class A {
 int A::counter = 0;
 class temp {
  public:
-  operator float() const {
+  operator long double() const {
     cout << "temp operator float() const" << endl;
     return 1.;
   }
@@ -89,13 +89,46 @@ class Widget {
   Widget(std::initializer_list<long double> il) {
     cout << "3- Widget(std::initializer_list<long double> il)" << endl;
   }
+  Widget(std::initializer_list<temp> il) {
+    cout << "4- Widget(std::initializer_list<temp> il)" << endl;
+  }
   operator temp() const {
     cout << "Widget operator temp() const" << endl;
     return temp{};
   }
 };
+
+class Widget1 {
+ public:
+  Widget1() { cout << "1- Widget1()" << endl; }
+  Widget1(int i, bool b) { cout << "1- Widget1(int i, bool b)" << endl; }
+  Widget1(int i, double d) { cout << "2- Widget1(int i, double d)" << endl; }
+  Widget1(std::initializer_list<bool> il) {
+    cout << "3- Widget(1std::initializer_list<bool> il)" << endl;
+  }
+};
+
+class Widget2 {
+ public:
+  Widget2() { cout << "1- Widget2()" << endl; }
+  Widget2(int i, bool b) { cout << "1- Widget2(int i, bool b)" << endl; }
+  Widget2(int i, double d) { cout << "2- Widget2(int i, double d)" << endl; }
+  Widget2(std::initializer_list<string> il) {
+    cout << "3- Widget(1std::initializer_list<string> il)" << endl;
+  }
+};
+
+class Widget3 {
+ public:
+  Widget3() { cout << "1- Widget3()" << endl; }
+  Widget3(std::initializer_list<int> il) {
+    cout << "2- Widget3(std::initializer_list<int>)" << endl;
+  }
+};
+
 int main(int argc, char const *argv[]) {
   cout << "begin" << endl;
+  cout << "-------------" << endl;
   {
     cout << "1" << endl;
     A a;
@@ -176,22 +209,51 @@ int main(int argc, char const *argv[]) {
     atomic<int> a_b_3(2);
     atomic<int> a_b_4 = {3};
     atomic<int> a_b_5 = 4;  // Dont Use
+    // atomic<int> a_b_6 = a_b_5;  // Dont Use
+    // atomic<int> a_b_6{a_b_5};  // Dont Use
     std::cout << a_b_1 << " " << a_b_2 << " " << a_b_3 << " " << a_b_4 << " "
               << a_b_5 << " " << endl;
   }
   cout << "-------------" << endl;
-  cout << "-- 1 --" << endl;
-  Widget w1(10, true);
-  cout << "-- 2 --" << endl;
-  Widget w2{10, true};
-  cout << "-- 3 --" << endl;
-  Widget w4{10, 5.0, 'a', 10.l};
-  cout << "-- 4 --" << endl;
-  Widget w3(10, 5.0);
-  cout << "-- 5 --" << endl;
-  Widget w5(w4);
-  cout << "-- 6 --" << endl;
-  Widget w6{w4,w1,w2,w3};
+  {
+    cout << "-- 1 --" << endl;
+    Widget w1(10, true);
+    cout << "-- 2 --" << endl;
+    Widget w2{10, true};
+    cout << "-- 3 --" << endl;
+    Widget w4{10, 5.0, 'a', 10.l};
+    cout << "-- 4 --" << endl;
+    Widget w3(10, 5.0);
+    cout << "-- 5 --" << endl;
+    Widget w5(w4);
+    cout << "-- 6 --" << endl;
+    Widget w6{w4, w1, w2, w3};
+    temp a;
+    float fiiii = a;
+    cout << "-- 7 --" << endl;
+    int iii_1{12};
+    // int iii_2{12.};
+    int iii_3{12ll};
+    int iii_4{true};
+    int iii_5{'a'};
+    // Widget1 w11{15,true}; // narrowing conversion of ‘15’ from ‘int’ to
+    // ‘bool’
+    // [-Wnarrowing]
+    Widget2 w21{15, true};
+  }
+  cout << "-------------" << endl;
+  {
+    Widget3 w31;
+    Widget3 w32{};
+    // Widget3 w33(); // most vexing parse
+    Widget3 w34({});
+    Widget3 w35{{}};
+  }
+  cout << "-------------" << endl;
+  {
+    std::vector<int> v1(10);
+  }
+  cout << "-------------" << endl;
   cout << "end" << endl;
 
   return 0;
