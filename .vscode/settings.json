@@ -53,6 +53,10 @@
         "complex": "cpp",
         "list": "cpp",
         "optional": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "bitset": "cpp",
+        "mutex": "cpp",
+        "stop_token": "cpp",
+        "typeindex": "cpp"
     }
 }
