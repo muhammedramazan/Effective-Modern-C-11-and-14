@@ -22,9 +22,9 @@ class D {
   D() { cout << "D" << endl; }
   ~D() { cout << "~D" << endl; }
 };
-D fff()  {
+D fff() {
   C c;
-  //throw 12;
+  // throw 12;
   return D{};
 }
 D ff() {
@@ -40,6 +40,17 @@ D f() {
   return D{};
 }
 
+class MyClass {
+ public:
+  MyClass() = default;
+
+  // Move constructor
+  MyClass(MyClass&&) noexcept { std::cout << "Move constructor  called\n"; }
+
+  // Copy constructor
+  MyClass(const MyClass&) noexcept { std::cout << "Copy constructor called\n"; }
+};
+
 int main(int argc, char const* argv[]) {
   /* code */
   try {
@@ -48,5 +59,12 @@ int main(int argc, char const* argv[]) {
   } catch (...) {
     std::cerr << "catch" << '\n';
   }
+
+  std::vector<MyClass> vec_my;
+  MyClass cll;
+  cout << "---" << endl;
+  vec_my.push_back(MyClass{});
+  vec_my.push_back(cll);
+
   return 0;
 }

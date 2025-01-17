@@ -57,6 +57,13 @@
         "bitset": "cpp",
         "mutex": "cpp",
         "stop_token": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "cstring": "cpp",
+        "condition_variable": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "semaphore": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp"
     }
 }
